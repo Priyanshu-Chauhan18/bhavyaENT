@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surface & Background Hierarchy (Stitch: Tonal Layering) */
+  --background: #faf8f5;
+  --foreground: #1b1c1a;
+  --surface: #ffffff;
+  --subtle: #f5f0eb;
+  --surface-dim: #f5f3f0;
+  --surface-container: #efeeeb;
+
+  /* Brand Accent (Gold as "jewelry" — sparingly) */
+  --accent-gold: #d4a373;
+  --accent-gold-hover: #c4935f;
+  --accent-deep: #7d562d;
+
+  /* Text Hierarchy */
+  --text-primary: #1b1c1a;
+  --text-secondary: #50453b;
+  --text-muted: #82756a;
+
+  /* Borders — Ghost style (subtle, warm) */
+  --border-default: #d4c4b7;
+  --border-subtle: #e8e4df;
+
+  /* Ambient Shadows (Stitch: 24-48px blur, 4-6% opacity) */
+  --shadow-card: 0 2px 24px rgba(27, 28, 26, 0.04);
+  --shadow-hover: 0 4px 32px rgba(27, 28, 26, 0.06), 0 2px 8px rgba(27, 28, 26, 0.03);
+  --shadow-elevated: 0 8px 48px rgba(27, 28, 26, 0.06), 0 4px 12px rgba(27, 28, 26, 0.04);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-container: var(--surface-container);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-gold-hover: var(--accent-gold-hover);
+  --color-accent-deep: var(--accent-deep);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Editorial Typography Helpers */
+.heading-editorial {
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.body-relaxed {
+  line-height: 1.65;
+}
+
+/* Frosted Glass for blur/lock sections */
+.frosted-lock {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(250, 248, 245, 0.8);
 }
