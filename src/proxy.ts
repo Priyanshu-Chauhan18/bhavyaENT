@@ -1,14 +1,22 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // If Supabase env vars are missing, pass through without auth checks
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return supabaseResponse;
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -27,7 +35,19 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  // Wrap in try-catch to prevent fetch failures from crashing the proxy
+  // and flooding the terminal with errors during dev
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data?.user ?? null;
+  } catch (error) {
+    // Supabase unreachable — allow request to pass through
+    // The page-level auth checks will handle this gracefully
+    console.warn('[proxy] Supabase auth check failed, passing through:', (error as Error).message);
+    return supabaseResponse;
+  }
+
   const path = request.nextUrl.pathname;
 
   const isAccountRoute = path.startsWith('/account');
@@ -58,8 +78,8 @@ export async function middleware(request: NextRequest) {
     }
 
     const returnTo = request.nextUrl.searchParams.get('returnTo');
-    const redirectPath = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//') 
-      ? returnTo 
+    const redirectPath = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')
+      ? returnTo
       : '/';
 
     const url = request.nextUrl.clone();
@@ -69,45 +89,49 @@ export async function middleware(request: NextRequest) {
   }
 
   // ─── Rule 3: Admin role check → Redirect non-admin away early ──────
-  // This is a UX optimization only. The real guard is requireAdmin() in the layout.
-  // We do a single lightweight profile query to prevent the "flash then error" UX.
   if (user && isAdminRoute) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role_key, is_active')
-      .eq('id', user.id)
-      .single();
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role_key, is_active')
+        .eq('id', user.id)
+        .single();
 
-    // No profile or inactive → redirect to account
-    if (!profile || !profile.is_active) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/account';
-      return redirectWithCookies(url);
-    }
+      if (!profile || !profile.is_active) {
+        const url = request.nextUrl.clone();
+        url.pathname = '/account';
+        return redirectWithCookies(url);
+      }
 
-    // Customer trying admin → redirect to account (no error flash)
-    if (profile.role_key !== 'admin') {
-      const url = request.nextUrl.clone();
-      url.pathname = '/account';
-      return redirectWithCookies(url);
+      if (profile.role_key !== 'admin') {
+        const url = request.nextUrl.clone();
+        url.pathname = '/account';
+        return redirectWithCookies(url);
+      }
+    } catch {
+      // If profile check fails, let the layout handle it
+      return supabaseResponse;
     }
   }
 
-  // ─── Rule 4: Account inactive check → Redirect inactive users ──────
-  // Lightweight check only for account routes to prevent inactive users from accessing
+  // ─── Rule 4: Account inactive check ──────
   if (user && isAccountRoute) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('is_active')
-      .eq('id', user.id)
-      .single();
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_active')
+        .eq('id', user.id)
+        .single();
 
-    if (profile && !profile.is_active) {
-      // Redirect to sign-in with a message flag (avoid redirect loops)
-      const url = request.nextUrl.clone();
-      url.pathname = '/auth/sign-in';
-      url.searchParams.set('inactive', '1');
-      return redirectWithCookies(url);
+      if (profile && !profile.is_active) {
+        const url = request.nextUrl.clone();
+        url.pathname = '/auth/sign-in';
+        url.searchParams.set('inactive', '1');
+        return redirectWithCookies(url);
+      }
+    } catch {
+      // If profile check fails, let the page handle it
+      return supabaseResponse;
     }
   }
 

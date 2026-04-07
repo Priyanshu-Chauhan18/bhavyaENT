@@ -1,75 +1,186 @@
-<div align="center">
+<p align="center">
+  <img src="public/images/logo/logo-final-transparent.png" alt="Bhavyaa Enterprises Logo" width="200" />
+</p>
 
-# ⬡ Bhavya
-### Premium B2B Closures & Packaging Platform
+<h1 align="center">BHAVYAA ENTERPRISES</h1>
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js&style=flat-square)](https://nextjs.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-Database%20&%20Auth-3ECF8E?logo=supabase&style=flat-square)](https://supabase.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css&style=flat-square)](https://tailwindcss.com/)
-[![React Bits](https://img.shields.io/badge/React_Bits-Animations-FF4154?style=flat-square)](https://reactbits.dev/)
+<p align="center">
+  <strong>Premium Bottle Cap Manufacturing — Digital Catalog & Enquiry Platform</strong>
+</p>
 
-</div>
-
----
-
-## 📖 Official Architecture Guide
-
-> **🚨 IMPORTANT FOR ALL DEVELOPERS:**
-> Before committing any code, modifying the schema, or adding new features, you **MUST** read the official post-launch rulebook.
-> 
-> 👉 **[Read the POST_LAUNCH_ARCHITECTURE.md](./POST_LAUNCH_ARCHITECTURE.md)** 👈
+<p align="center">
+  <a href="https://nextjs.org"><img src="https://img.shields.io/badge/Next.js-16.2-black?logo=next.js" alt="Next.js" /></a>
+  <a href="https://react.dev"><img src="https://img.shields.io/badge/React-19.2-61DAFB?logo=react" alt="React" /></a>
+  <a href="https://supabase.com"><img src="https://img.shields.io/badge/Supabase-Backend-3ECF8E?logo=supabase" alt="Supabase" /></a>
+  <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss" alt="Tailwind CSS" /></a>
+  <a href="https://vercel.com"><img src="https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel" alt="Vercel" /></a>
+</p>
 
 ---
 
-## ✨ Overview
+## 📋 Overview
 
-Bhavya is an enterprise-grade B2B e-commerce platform explicitly built to convert bulk manufacturing enquiries. Designed with a **"Precision Warmth"** aesthetic, the platform combines a high-end consumer-grade UI with strict B2B logic (locked pricing tiers, WhatsApp-integrated negotiation, and secure user profiles).
+A full-stack web platform for **Bhavyaa Enterprises**, a premium bottle cap manufacturer based in India. The platform serves as a digital product catalog with integrated enquiry management, admin dashboard, and WhatsApp-based customer communication.
 
-### 🚀 Key Features
-- **Public Storefront:** Dynamic hero animations (via React Bits), responsive product grids, and a completely bespoke "Warm Industrial" design system.
-- **Conversion-Optimized UX:** Tier 1 pricing and MOQ data are concealed behind a frosted-glass constraint, driving guest sign-ups.
-- **WhatsApp Integration:** 1-click enquiry generation that automatically formats bulk queries and product SKUs for the manufacturing sales team.
-- **Secure Admin Panel:** Full CRUD capabilities for products, categories, site settings, and automated coupon generation.
-- **Stateless Architecture:** Fully Edge-ready and infinitely scalable on Vercel/Netlify.
+### ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| 🏭 **Product Catalog** | Browse products organized by catalogs and categories with detailed specifications |
+| 💬 **WhatsApp Enquiry** | One-click WhatsApp enquiry with pre-filled product details |
+| 🔐 **Auth System** | Supabase-powered authentication with role-based access (Admin / Customer) |
+| 📊 **Admin Dashboard** | Full CRUD for products, categories, enquiries, and site settings |
+| 🎨 **Premium UI** | Montserrat typography, dark industrial theme, smooth Framer Motion animations |
+| 📱 **Fully Responsive** | Mobile-first design that works beautifully on all devices |
+| 🔍 **SEO Optimized** | Dynamic metadata, sitemap, robots.txt, and Open Graph tags |
 
 ---
 
-## 🛠️ Getting Started
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Framework** | [Next.js 16](https://nextjs.org) (App Router, Turbopack) |
+| **UI** | [React 19](https://react.dev), [Tailwind CSS 4](https://tailwindcss.com) |
+| **Animations** | [Framer Motion](https://www.framer.com/motion/) |
+| **Backend / DB** | [Supabase](https://supabase.com) (PostgreSQL, Auth, Storage, RLS) |
+| **Forms** | [React Hook Form](https://react-hook-form.com) + [Zod](https://zod.dev) validation |
+| **Icons** | [Lucide React](https://lucide.dev) |
+| **Deployment** | [Vercel](https://vercel.com) |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── (public)/           # Public pages (home, catalog, contact, about)
+│   ├── (account)/          # Authenticated user pages
+│   ├── admin/              # Admin dashboard
+│   ├── auth/               # Auth flows (sign-in, sign-up, callback)
+│   └── api/                # API routes (enquiries, previews)
+├── components/             # Shared UI components
+│   ├── layout/             # Navbar, Footer, Trust Strip
+│   └── ui/                 # Button, Input, Card, etc.
+├── features/               # Feature modules
+│   ├── admin/              # Admin CRUD, product forms, settings
+│   ├── auth/               # Auth actions and guards
+│   ├── catalog/            # Catalog display components & data layer
+│   ├── enquiry/            # WhatsApp enquiry engine
+│   └── enquiries/          # Enquiry management
+├── lib/                    # Shared utilities
+│   ├── db/                 # Supabase client & helpers
+│   ├── config/             # Site config & constants
+│   ├── guards/             # Role-based access guards
+│   ├── validation/         # Zod schemas
+│   └── providers/          # React context providers
+└── proxy.ts                # Next.js 16 Proxy (auth & routing)
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- **Node.js**: v18 or newer
-- **Supabase**: Requires a linked Supabase project for PostgreSQL database & Auth.
+
+- **Node.js** ≥ 18
+- **npm** ≥ 9
+- A [Supabase](https://supabase.com) project (free tier works)
 
 ### 1. Clone & Install
+
 ```bash
-git clone https://github.com/Priyanshu-Chauhan18/havya-platform.git
-cd bottle-cap-website
+git clone https://github.com/Priyanshu-Chauhan18/bhavyaENT.git
+cd bhavyaENT
 npm install
 ```
 
 ### 2. Environment Variables
-Create a `.env.local` file in the root directory:
+
+Copy the example env file and fill in your Supabase credentials:
+
+```bash
+cp .env.example .env.local
+```
+
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# Site
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# WhatsApp
+NEXT_PUBLIC_WHATSAPP_NUMBER=+91XXXXXXXXXX
 ```
 
 ### 3. Run Development Server
+
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Open [http://localhost:3000](http://localhost:3000) to see the site.
+
+### 4. Build for Production
+
+```bash
+npm run build
+npm start
+```
 
 ---
 
-## 🎨 Design System: "Precision Warmth"
+## 🗄️ Database
 
-The UI intentionally avoids standard SaaS blues and hard lines. Instead, it utilizes:
-- **Tonal Layering:** Sections separated by subtle background shifts (`#faf8f5` → `#f5f0eb`), eliminating harsh 1px borders.
-- **Ambient Shadows:** 24px-48px blurs at incredibly low opacity (4-6%).
-- **Accent Gold:** Strict, minimal usage of `#d4a373` gradients exclusively for conversion points.
+The project uses **Supabase PostgreSQL** with the following core tables:
+
+| Table | Purpose |
+|---|---|
+| `profiles` | User profiles with roles (`admin` / `customer`) |
+| `catalogs` | Top-level product catalogs |
+| `categories` | Product categories under catalogs |
+| `products` | Product listings with specs, images, pricing |
+| `enquiries` | Customer enquiry records |
+| `site_settings` | Dynamic site configuration (contact info, SEO, etc.) |
+| `enquiry_templates` | WhatsApp message templates |
+
+Row-Level Security (RLS) policies ensure data isolation and role-based access.
 
 ---
 
-*This project was fundamentally engineered and scaled utilizing intelligent agentic workflows.*
+## 🔐 Authentication & Authorization
+
+| Role | Access |
+|---|---|
+| **Guest** | Browse catalog, view products, submit enquiries |
+| **Customer** | All guest permissions + account management |
+| **Admin** | Full dashboard — manage products, categories, enquiries, site settings |
+
+The `proxy.ts` file handles route protection at the edge, with defense-in-depth guards in layouts and server actions.
+
+---
+
+## 📦 Deployment
+
+The project is optimized for **Vercel** deployment:
+
+1. Push code to GitHub
+2. Connect the repository to [Vercel](https://vercel.com)
+3. Add environment variables in Vercel dashboard
+4. Deploy automatically on every push to `main`
+
+---
+
+## 📄 License
+
+This project is proprietary software for **Bhavyaa Enterprises**. All rights reserved.
+
+---
+
+<p align="center">
+  Built with ❤️ by <a href="https://github.com/Priyanshu-Chauhan18">Priyanshu Chauhan</a>
+</p>

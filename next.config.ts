@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: import.meta.dirname, // Absolute path to silence multiple-lockfile warning
+  },
   images: {
     unoptimized: true,
     dangerouslyAllowSVG: true,
