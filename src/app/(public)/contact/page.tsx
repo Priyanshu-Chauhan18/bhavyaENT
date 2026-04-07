@@ -1,12 +1,21 @@
 import { Button } from '@/components/ui/button';
 import { MailIcon, PhoneIcon, MapPinIcon } from 'lucide-react';
+import { getManySettings } from '@/features/admin/db/settings';
 
 export const metadata = {
   title: 'Contact Sales | Bhavya Closures',
   description: 'Reach out for custom quotes, wholesale orders, and technical support.',
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getManySettings([
+    'company_email', 'company_phone', 'company_address'
+  ]);
+
+  const email = settings.company_email || 'sales@bhavya.com';
+  const phone = settings.company_phone || '+91 98765 43210';
+  const address = settings.company_address || 'Bhavya Industrial Park\nMumbai, Maharashtra 400001';
+
   return (
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-5xl">
       <div className="text-center mb-16">
@@ -24,8 +33,8 @@ export default function ContactPage() {
           </div>
           <h3 className="heading-editorial text-lg font-bold text-text-primary mb-2">Email Us</h3>
           <p className="text-text-secondary text-sm mb-4">For general inquiries and technical specs.</p>
-          <a href="mailto:sales@bhavya.com" className="text-accent-deep font-medium hover:text-accent-gold transition-colors">
-            sales@bhavya.com
+          <a href={`mailto:${email}`} className="text-accent-deep font-medium hover:text-accent-gold transition-colors">
+            {email}
           </a>
         </div>
 
@@ -35,8 +44,8 @@ export default function ContactPage() {
           </div>
           <h3 className="heading-editorial text-lg font-bold text-text-primary mb-2">Call Sales</h3>
           <p className="text-text-secondary text-sm mb-4">Mon-Fri from 8am to 6pm (IST).</p>
-          <a href="tel:+919876543210" className="text-accent-deep font-medium hover:text-accent-gold transition-colors">
-            +91 98765 43210
+          <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} className="text-accent-deep font-medium hover:text-accent-gold transition-colors">
+            {phone}
           </a>
         </div>
 
@@ -46,9 +55,8 @@ export default function ContactPage() {
           </div>
           <h3 className="heading-editorial text-lg font-bold text-text-primary mb-2">Headquarters</h3>
           <p className="text-text-secondary text-sm mb-4">Factory tours available by appointment.</p>
-          <span className="text-text-primary font-medium">
-            Bhavya Industrial Park<br/>
-            Mumbai, Maharashtra 400001
+          <span className="text-text-primary font-medium whitespace-pre-line">
+            {address}
           </span>
         </div>
 

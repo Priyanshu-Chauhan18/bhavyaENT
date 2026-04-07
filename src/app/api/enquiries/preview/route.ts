@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     
     if (!rawTemplateText) {
       if (type === 'product') {
-        rawTemplateText = `📋 *Product Enquiry — Bhavya*
+        rawTemplateText = `📋 *Product Enquiry — BHAVYAA ENTERPRISES*
 
 🏷️ {{product_name}} ({{sku}})
 🎨 {{color}} | {{material}} | {{finish}}
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
 ⚡ Need quick response for production planning
 📍 Page: {{current_url}}`;
       } else if (type === 'category') {
-        rawTemplateText = `📋 *Category Enquiry — Bhavya*
+        rawTemplateText = `📋 *Category Enquiry — BHAVYAA ENTERPRISES*
 
 I am interested in exploring your {{category_name}} closures.
 

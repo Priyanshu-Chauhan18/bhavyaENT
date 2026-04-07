@@ -10,6 +10,15 @@
 !.yarn/releases
 !.yarn/versions
 
+node_modules/
+.venv/
+venv/
+dist/
+build/
+.git/
+*.log
+*.sqlite
+
 # testing
 /coverage
 

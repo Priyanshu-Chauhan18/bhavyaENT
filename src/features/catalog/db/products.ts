@@ -37,6 +37,10 @@ export type AuthenticatedProductDetail = PublicProductPreview & {
   neck_size: string | null;
   moq: string | null;
   lead_time: string | null;
+  dimensions: string | null;
+  packaging_type: string | null;
+  production_capacity_per_day: string | null;
+  delivery_time: string | null;
   private_specs: ProductSpec[];
 };
 
@@ -281,7 +285,8 @@ export async function searchPublicProducts(
 
 const AUTHENTICATED_PRODUCT_COLUMNS = `
   id, category_id, name, slug, sku, short_description, full_description, 
-  color, material, finish, neck_size, moq, lead_time, is_featured
+  color, material, finish, neck_size, moq, lead_time, is_featured,
+  dimensions, packaging_type, production_capacity_per_day, delivery_time
 `;
 
 /**
@@ -331,6 +336,10 @@ export async function getAuthenticatedProductDetailBySlug(slug: string): Promise
     moq: product.moq,
     lead_time: product.lead_time,
     is_featured: product.is_featured,
+    dimensions: product.dimensions,
+    packaging_type: product.packaging_type,
+    production_capacity_per_day: product.production_capacity_per_day,
+    delivery_time: product.delivery_time,
     images: imgsRes.data || [],
     public_specs: allSpecs.filter(s => s.is_public).map(s => ({ spec_key: s.spec_key, spec_value: s.spec_value })),
     private_specs: allSpecs.filter(s => !s.is_public),

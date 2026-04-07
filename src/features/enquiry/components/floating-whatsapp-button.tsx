@@ -52,7 +52,7 @@ export function FloatingWhatsappButton() {
     } catch (err: any) {
       console.error('Floating Enquiry Error:', err);
       // Fallback: Just open whatsapp directly to the raw number if API fails
-      window.open(`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ''}?text=Hello Bhavya team, I have a query from ${window.location.href}`, '_blank');
+      window.open(`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ''}?text=Hello BHAVYAA ENTERPRISES team, I have a query from ${window.location.href}`, '_blank');
     } finally {
       setIsLoading(false);
     }

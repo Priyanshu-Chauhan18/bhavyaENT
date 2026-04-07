@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
   // `next` URL param can be mapped to returnTo
-  const next = searchParams.get('next') ?? '/account';
+  const next = searchParams.get('next') ?? '/';
 
   if (code) {
     const supabase = await createServerSupabaseClient();

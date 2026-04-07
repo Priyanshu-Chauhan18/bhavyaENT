@@ -1,4 +1,5 @@
 import { getPublicActiveCategories } from '@/features/catalog/db/categories';
+import { getPublicActiveCatalogs } from '@/features/catalog/db/catalogs';
 import { searchPublicProducts } from '@/features/catalog/db/products';
 import { CatalogSearchParamsSchema } from '@/features/catalog/utils/pagination';
 import { CategoryCard } from '@/features/catalog/components/category-card';
@@ -6,7 +7,7 @@ import { ProductCard } from '@/features/catalog/components/product-card';
 import { SearchAndFilterBar } from '@/features/catalog/components/search-and-filter-bar';
 import { PaginationControl } from '@/features/catalog/components/pagination-control';
 import { Breadcrumbs } from '@/features/catalog/components/breadcrumbs';
-import { PackageOpenIcon, ShieldCheckIcon, PackageIcon, GlobeIcon, AwardIcon } from 'lucide-react';
+import { PackageOpenIcon, ShieldCheckIcon, PackageIcon, GlobeIcon, AwardIcon, RecycleIcon } from 'lucide-react';
 import { FadeIn } from '@/components/ui/fade-in';
 
 export const metadata = {
@@ -65,9 +66,15 @@ export default async function CatalogRootPage(
     }
   } else {
     // Discovery Mode
+    const catalogs = await getPublicActiveCatalogs();
     const categories = await getPublicActiveCategories();
+    const { data: allProducts, total: allTotal } = await searchPublicProducts({
+      page,
+      sort,
+      limit: 12
+    });
 
-    if (categories.length === 0) {
+    if (categories.length === 0 && allProducts.length === 0) {
       content = (
         <div className="py-20 text-center bg-subtle rounded-2xl shadow-[var(--shadow-card)] mt-8">
           <h2 className="heading-editorial text-2xl font-bold text-text-primary mb-2">Catalog Getting Ready</h2>
@@ -76,17 +83,71 @@ export default async function CatalogRootPage(
       );
     } else {
       content = (
-        <div className="mt-8">
-          <FadeIn delay={0.4}>
-            <h2 className="heading-editorial text-2xl font-bold text-text-primary mb-6">Product Categories</h2>
-          </FadeIn>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category, idx) => (
-              <FadeIn key={category.id} delay={0.4 + (idx * 0.05)}>
-                <CategoryCard category={category} />
+        <div className="mt-8 flex flex-col gap-16">
+          {catalogs.length > 0 ? (
+            // Group Categories under Catalogs
+            catalogs.map((catalog, cIdx) => {
+              const catalogCats = categories.filter(c => c.catalog_id === catalog.id);
+              if (catalogCats.length === 0) return null;
+              
+              return (
+                <div key={catalog.id}>
+                  <FadeIn delay={0.4 + (cIdx * 0.1)}>
+                    <div className="mb-6">
+                      <h2 className="heading-editorial text-2xl font-bold text-text-primary mb-2">{catalog.name}</h2>
+                      {catalog.description && (
+                        <p className="body-relaxed text-sm text-text-secondary max-w-2xl">{catalog.description}</p>
+                      )}
+                    </div>
+                  </FadeIn>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {catalogCats.map((category, idx) => (
+                      <FadeIn key={category.id} delay={0.4 + (idx * 0.05)}>
+                        <CategoryCard category={category} />
+                      </FadeIn>
+                    ))}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            // Fallback if there are categories but no catalogs
+            categories.length > 0 && (
+              <div>
+                <FadeIn delay={0.4}>
+                  <h2 className="heading-editorial text-2xl font-bold text-text-primary mb-6">Product Categories</h2>
+                </FadeIn>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {categories.map((category, idx) => (
+                    <FadeIn key={category.id} delay={0.4 + (idx * 0.05)}>
+                      <CategoryCard category={category} />
+                    </FadeIn>
+                  ))}
+                </div>
+              </div>
+            )
+          )}
+
+          {allProducts.length > 0 && (
+            <div>
+              <FadeIn delay={0.6}>
+                <div className="pt-8 border-t border-border-default mb-6">
+                  <h2 className="heading-editorial text-2xl font-bold text-text-primary mb-2">All Products</h2>
+                  <p className="text-sm font-medium text-text-muted">Explore our complete inventory</p>
+                </div>
               </FadeIn>
-            ))}
-          </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {allProducts.map((product, idx) => (
+                  <FadeIn key={product.id} delay={0.6 + (idx * 0.05)}>
+                    <ProductCard product={product} />
+                  </FadeIn>
+                ))}
+              </div>
+              <FadeIn delay={0.7} className="mt-8">
+                <PaginationControl currentPage={page} totalItems={allTotal} itemsPerPage={12} />
+              </FadeIn>
+            </div>
+          )}
         </div>
       );
     }
@@ -108,7 +169,7 @@ export default async function CatalogRootPage(
         <div className="flex flex-wrap justify-start gap-6 text-text-muted text-sm mb-8 py-4 border-t border-b border-border-subtle">
           <div className="flex items-center gap-2">
             <ShieldCheckIcon className="w-4 h-4 text-accent-gold" />
-            <span>ISO 9001 Certified</span>
+            <span>ISO 9001:2015</span>
           </div>
           <div className="flex items-center gap-2">
             <PackageIcon className="w-4 h-4 text-accent-gold" />
@@ -116,11 +177,15 @@ export default async function CatalogRootPage(
           </div>
           <div className="flex items-center gap-2">
             <GlobeIcon className="w-4 h-4 text-accent-gold" />
-            <span>Pan-India Delivery</span>
+            <span>Pan India</span>
           </div>
           <div className="flex items-center gap-2">
             <AwardIcon className="w-4 h-4 text-accent-gold" />
-            <span>15+ Years</span>
+            <span>12+ Years Experience</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <RecycleIcon className="w-4 h-4 text-accent-gold" />
+            <span>Recyclable</span>
           </div>
         </div>
       </FadeIn>

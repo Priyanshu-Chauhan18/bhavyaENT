@@ -67,10 +67,20 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Trust line */}
-          <p className="text-[11px] text-text-muted mt-3 pt-3 border-t border-border-subtle">
-            MOQ available • Customization supported
-          </p>
+          {/* Trust line + delivery/packaging badges */}
+          <div className="mt-3 pt-3 border-t border-border-subtle space-y-2">
+            <div className="flex flex-wrap gap-1.5">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-accent-deep/10 text-accent-deep">
+                🚚 1-7 Days Delivery
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-accent-gold/10 text-accent-brown">
+                📦 Bag | Box (paid)
+              </span>
+            </div>
+            <p className="text-[11px] text-text-muted">
+              MOQ available • Customization supported
+            </p>
+          </div>
         </CardContent>
       </Link>
       

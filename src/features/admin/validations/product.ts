@@ -22,7 +22,7 @@ export const AdminProductSchema = z.object({
   // Naming & Slugs
   name: z.string().min(3, 'Product name must be at least 3 characters').max(150),
   slug: z.string().min(3, 'Slug is required').regex(/^[a-z0-9-]+$/, 'Slug must be lowercase alphanumeric with hyphens'),
-  sku: z.string().min(3, 'SKU is required').max(50),
+  sku: z.string().max(50).nullable().optional(),
   
   // Content & Configs
   short_description: z.string().max(300).nullable().optional(),
@@ -36,6 +36,12 @@ export const AdminProductSchema = z.object({
   min_order_quantity: z.preprocess((v) => (v === '' || Number.isNaN(v) ? null : Number(v)), z.number().int().min(1).nullable().optional()),
   lead_time_days: z.preprocess((v) => (v === '' || Number.isNaN(v) ? null : Number(v)), z.number().int().min(1).nullable().optional()),
   
+  // NEW FIELDS
+  dimensions: z.string().max(100).nullable().optional(),
+  packaging_type: z.string().default('BAG | BOX (Paid)'),
+  production_capacity_per_day: z.string().max(100).nullable().optional(),
+  delivery_time: z.string().default('1 to 7 Days'),
+
   // States
   is_active: z.boolean().default(false),
   is_featured: z.boolean().default(false),

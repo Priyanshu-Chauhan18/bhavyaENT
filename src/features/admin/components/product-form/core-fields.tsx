@@ -38,7 +38,7 @@ export function CoreFields({ categories }: { categories: { id: string, name: str
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Internal SKU *</label>
+            <label className="text-sm font-medium">Internal SKU (Optional)</label>
             <Input {...register('sku')} placeholder="e.g. CROWN-001" />
             {errors.sku && <p className="text-sm text-red-500">{errors.sku.message}</p>}
           </div>
@@ -88,6 +88,32 @@ export function CoreFields({ categories }: { categories: { id: string, name: str
             {errors.lead_time_days && <p className="text-sm text-red-500">{errors.lead_time_days.message}</p>}
           </div>
         </div>
+
+        {/* NEW FIELDS */}
+        <div className="border-t border-slate-200 pt-4 mt-4">
+          <h4 className="text-sm font-semibold text-slate-700 mb-3">Additional Product Details</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Dimensions (Optional)</label>
+              <Input {...register('dimensions')} placeholder="e.g. 26mm × 17mm" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Packaging Type</label>
+              <Input {...register('packaging_type')} placeholder="BAG | BOX (Paid)" />
+              <p className="text-xs text-slate-500">Auto-filled. <span className="text-amber-600 font-medium">BOX is a paid option</span></p>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Production Capacity/Day (Optional)</label>
+              <Input {...register('production_capacity_per_day')} placeholder="e.g. 50,000 units" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Delivery Time</label>
+              <Input {...register('delivery_time')} readOnly className="bg-slate-50 cursor-not-allowed" />
+              <p className="text-xs text-slate-500">Standard delivery — permanent for all products</p>
+            </div>
+          </div>
+        </div>
+
       </CardContent>
     </Card>
   );

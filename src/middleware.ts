@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
     const returnTo = request.nextUrl.searchParams.get('returnTo');
     const redirectPath = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//') 
       ? returnTo 
-      : '/account';
+      : '/';
 
     const url = request.nextUrl.clone();
     url.pathname = redirectPath;

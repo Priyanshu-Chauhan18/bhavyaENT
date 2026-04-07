@@ -32,7 +32,7 @@ export const ROUTES = {
   HOME: '/',
   ABOUT: '/about',
   CONTACT: '/contact',
-  FAQ: '/faq',
+
   CATALOG: '/catalog',
   CATEGORY: (slug: string) => `/catalog/${slug}`,
   PRODUCT: (slug: string) => `/product/${slug}`,
@@ -67,7 +67,7 @@ export const PUBLIC_ROUTES = [
   ROUTES.HOME,
   ROUTES.ABOUT,
   ROUTES.CONTACT,
-  ROUTES.FAQ,
+
   '/catalog',
   '/product',
 ];

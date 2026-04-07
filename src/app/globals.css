@@ -1,32 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  /* Surface & Background Hierarchy (Stitch: Tonal Layering) */
-  --background: #faf8f5;
-  --foreground: #1b1c1a;
+  /* ── Surface & Background (Warm Earthy Foundation) ── */
+  --background: #faf8f3;
+  --foreground: #2c1810;
   --surface: #ffffff;
-  --subtle: #f5f0eb;
-  --surface-dim: #f5f3f0;
-  --surface-container: #efeeeb;
+  --subtle: #f4f0e8;
+  --surface-dim: #eee9df;
+  --surface-container: #e7e1d6;
 
-  /* Brand Accent (Gold as "jewelry" — sparingly) */
-  --accent-gold: #d4a373;
-  --accent-gold-hover: #c4935f;
-  --accent-deep: #7d562d;
+  /* ── Brand: Golden-Green-Brown (from Bhavya Logo) ── */
+  --accent-gold: #b89a3e;
+  --accent-gold-hover: #a38832;
+  --accent-deep: #4a7c3f;
+  --accent-green: #5a8f4a;
+  --accent-brown: #7a5c2e;
+  --accent-brown-deep: #5c3d1a;
 
-  /* Text Hierarchy */
-  --text-primary: #1b1c1a;
-  --text-secondary: #50453b;
-  --text-muted: #82756a;
+  /* ── Text Hierarchy ── */
+  --text-primary: #2c1810;
+  --text-secondary: #5a4a38;
+  --text-muted: #8a7b6b;
 
-  /* Borders — Ghost style (subtle, warm) */
-  --border-default: #d4c4b7;
-  --border-subtle: #e8e4df;
+  /* ── Borders ── */
+  --border-default: #d6c9b0;
+  --border-subtle: #e8dcc8;
 
-  /* Ambient Shadows (Stitch: 24-48px blur, 4-6% opacity) */
-  --shadow-card: 0 2px 24px rgba(27, 28, 26, 0.04);
-  --shadow-hover: 0 4px 32px rgba(27, 28, 26, 0.06), 0 2px 8px rgba(27, 28, 26, 0.03);
-  --shadow-elevated: 0 8px 48px rgba(27, 28, 26, 0.06), 0 4px 12px rgba(27, 28, 26, 0.04);
+  /* ── Shadows ── */
+  --shadow-card: 0 2px 24px rgba(44, 24, 16, 0.04);
+  --shadow-hover: 0 4px 32px rgba(44, 24, 16, 0.07), 0 2px 8px rgba(44, 24, 16, 0.03);
+  --shadow-elevated: 0 8px 48px rgba(44, 24, 16, 0.06), 0 4px 12px rgba(44, 24, 16, 0.04);
 }
 
 @theme inline {
@@ -39,12 +42,16 @@
   --color-accent-gold: var(--accent-gold);
   --color-accent-gold-hover: var(--accent-gold-hover);
   --color-accent-deep: var(--accent-deep);
+  --color-accent-green: var(--accent-green);
+  --color-accent-brown: var(--accent-brown);
+  --color-accent-brown-deep: var(--accent-brown-deep);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
   --color-border-default: var(--border-default);
   --color-border-subtle: var(--border-subtle);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-montserrat), system-ui, sans-serif;
+  --font-heading: var(--font-montserrat), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -55,19 +62,59 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Editorial Typography Helpers */
+/* ── Typography Helpers ── */
 .heading-editorial {
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .body-relaxed {
   line-height: 1.65;
 }
 
-/* Frosted Glass for blur/lock sections */
+/* ── Frosted Glass ── */
 .frosted-lock {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background: rgba(250, 248, 245, 0.8);
+  background: rgba(250, 248, 243, 0.85);
 }
+
+/* ── Marquee Auto-Scroll Animations ── */
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-left {
+  animation: marquee-left 30s linear infinite;
+}
+.marquee-right {
+  animation: marquee-right 30s linear infinite;
+}
+
+.marquee-left:hover,
+.marquee-right:hover {
+  animation-play-state: paused;
+}
+
+/* ── Chessboard Hero Slide Animation ── */
+@keyframes slide-in-out {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  45% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0; transform: scale(1.05); }
+  55% { opacity: 1; transform: scale(1); }
+}
+
+.chess-cell-animated img {
+  animation: slide-in-out 8s ease-in-out infinite;
+}
+
+.chess-cell-animated:nth-child(2) img { animation-delay: 1s; }
+.chess-cell-animated:nth-child(4) img { animation-delay: 2s; }
+.chess-cell-animated:nth-child(5) img { animation-delay: 3s; }
+.chess-cell-animated:nth-child(7) img { animation-delay: 4s; }

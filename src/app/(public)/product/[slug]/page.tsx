@@ -13,6 +13,7 @@ import { ProductCommercialInfo } from '@/features/catalog/components/product-com
 import { ProductFullSpecs } from '@/features/catalog/components/product-full-specs';
 import { WhatsappEnquiryButton } from '@/features/enquiry/components/whatsapp-enquiry-button';
 import { FadeIn } from '@/components/ui/fade-in';
+import { TrustStrip } from '@/components/layout/trust-strip';
 
 import { siteConfig } from '@/lib/config/site';
 
@@ -76,10 +77,12 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <FadeIn delay={0.1} direction="none">
-        <Breadcrumbs items={breadcrumbItems} />
-      </FadeIn>
+    <div className="flex flex-col min-h-screen">
+      <TrustStrip />
+      <div className="container mx-auto px-4 py-8 max-w-7xl flex-1">
+        <FadeIn delay={0.1} direction="none">
+          <Breadcrumbs items={breadcrumbItems} />
+        </FadeIn>
 
       <div className="bg-surface rounded-2xl p-6 md:p-10 shadow-[var(--shadow-card)] mt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
@@ -97,9 +100,14 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
               <h1 className="heading-editorial text-2xl md:text-4xl font-extrabold text-text-primary mb-3">
                 {product.name}
               </h1>
-              <p className="text-sm font-medium text-text-muted uppercase tracking-widest">
-                SKU: {product.sku}
-              </p>
+              {product.sku && (
+                <p className="text-sm font-medium text-text-muted uppercase tracking-widest">
+                  SKU: {product.sku}
+                </p>
+              )}
+              <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-subtle rounded-md text-sm font-medium text-text-secondary border border-border-subtle">
+                <span className="text-text-muted">Packaging:</span> Bag | <span className="font-bold text-accent-gold-hover">Box (paid)</span>
+              </div>
             </div>
 
             {/* Public Teaser Description */}
@@ -148,6 +156,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
             )}
 
           </FadeIn>
+        </div>
         </div>
       </div>
     </div>

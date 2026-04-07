@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/lib/providers';
 import { siteConfig } from '@/lib/config/site';
 import { getManySettings } from '@/features/admin/db/settings';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const montserrat = Montserrat({ 
+  subsets: ['latin'], 
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-montserrat' 
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getManySettings(['default_seo_title', 'default_seo_description', 'company_name']);
@@ -29,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     manifest: '/manifest.json',
     icons: {
-      icon: '/favicon.ico',
+      icon: '/images/logo/favicon-transparent.png',
     },
   };
 }
@@ -40,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${montserrat.variable}`}>
       <body className="font-sans antialiased text-foreground bg-background min-h-screen flex flex-col">
         <Providers>
           {children}

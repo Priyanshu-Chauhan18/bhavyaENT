@@ -1,4 +1,6 @@
 import { Card } from '@/components/ui/card';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface AuthCardProps {
   children: React.ReactNode;
@@ -15,11 +17,17 @@ export function AuthCard({ children, title, description }: AuthCardProps) {
       
       <div className="w-full max-w-md relative z-10">
         {/* Logo */}
-        <div className="text-center mb-8 flex items-center justify-center">
-          <span className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-accent-deep to-accent-gold bg-clip-text text-transparent italic pr-2">
-            <span className="not-italic mr-2 text-accent-gold">⬡</span>
-            Bhavya
-          </span>
+        <div className="text-center mb-8 flex flex-col items-center justify-center">
+          <Link href="/">
+            <Image
+              src="/images/logo/bhavya-logo.png"
+              alt="BHAVYAA ENTERPRISES"
+              width={240}
+              height={60}
+              className="w-auto h-12 md:h-14 object-contain"
+              priority
+            />
+          </Link>
         </div>
 
         <Card padding="lg" className="border-border-default shadow-[var(--shadow-card)] bg-surface rounded-2xl">

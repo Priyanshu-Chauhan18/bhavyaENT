@@ -52,7 +52,14 @@ export function ProductForm({ initialData, categories }: ProductFormProps) {
         : await updateProductAction(initialData.id!, data);
 
       if (!response.success) {
-        setGlobalError(response.error);
+        if (response.details) {
+          Object.entries(response.details).forEach(([key, messages]) => {
+            methods.setError(key as any, { type: 'server', message: messages[0] });
+          });
+          setGlobalError('Please fix the highlighted fields in the form.');
+        } else {
+          setGlobalError(response.error);
+        }
         return;
       }
 
