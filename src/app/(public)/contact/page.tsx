@@ -43,7 +43,7 @@ export default async function ContactPage() {
             <PhoneIcon className="w-8 h-8" />
           </div>
           <h3 className="heading-editorial text-lg font-bold text-text-primary mb-2">Call Sales</h3>
-          <p className="text-text-secondary text-sm mb-4">Mon-Fri from 8am to 6pm (IST).</p>
+          <p className="text-text-secondary text-sm mb-4">Mon-Sat from 9am to 6pm(IST).</p>
           <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} className="text-accent-deep font-medium hover:text-accent-gold transition-colors">
             {phone}
           </a>
