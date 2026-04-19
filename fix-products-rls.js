@@ -9,18 +9,20 @@ async function fixProductRls() {
     console.log('--- Applying Product RLS Fix ---');
 
     await client.query(`
-      -- Grant authenticated users the right to SELECT active, published products
+      -- Grant public (anon + authenticated) the right to SELECT active, published products
       DROP POLICY IF EXISTS "Allow authenticated read on active published products" ON public.products;
-      CREATE POLICY "Allow authenticated read on active published products"
+      DROP POLICY IF EXISTS "Allow public read on active published products" ON public.products;
+      CREATE POLICY "Allow public read on active published products"
       ON public.products FOR SELECT
-      TO authenticated
+      TO anon, authenticated
       USING (is_active = true AND publish_status = 'published');
 
-      -- Grant authenticated users the right to SELECT all active specs (private and public)
+      -- Grant public (anon + authenticated) the right to SELECT all active specs
       DROP POLICY IF EXISTS "Allow authenticated read on all specs" ON public.product_specs;
-      CREATE POLICY "Allow authenticated read on all specs"
+      DROP POLICY IF EXISTS "Allow public read on all specs" ON public.product_specs;
+      CREATE POLICY "Allow public read on all specs"
       ON public.product_specs FOR SELECT
-      TO authenticated
+      TO anon, authenticated
       USING (true);
     `);
 
