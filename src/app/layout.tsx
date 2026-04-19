@@ -31,9 +31,14 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
       images: [{ url: '/og-image.png', width: 1200, height: 630, alt: siteName }],
     },
-    manifest: '/manifest.json',
+    manifest: '/site.webmanifest',
     icons: {
-      icon: '/images/logo/favicon-transparent.png',
+      icon: [
+        { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' }
+      ],
+      shortcut: '/favicon.ico',
+      apple: '/apple-touch-icon.png',
     },
   };
 }
