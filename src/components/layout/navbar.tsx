@@ -7,6 +7,7 @@ export async function Navbar() {
 
   let role = 'guest';
   if (user?.id) {
+    role = 'customer'; // Default to customer if user exists but profile is missing
     const { data: profile } = await supabase
       .from('profiles')
       .select('role_key')

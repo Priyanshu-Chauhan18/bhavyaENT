@@ -24,6 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
       default: siteName,
     },
     description: siteDescription,
+    keywords: [...siteConfig.keywords],
     openGraph: {
       title: siteName,
       description: siteDescription,
@@ -51,6 +52,28 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${montserrat.variable}`}>
       <body className="font-sans antialiased text-foreground bg-background min-h-screen flex flex-col">
+        {/* Schema Markup for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Bhavyaa Enterprises",
+              "alternateName": ["Bhavyaa", "Bhavya Enterprises", "BHAVYAA ENTERPRISES"],
+              "url": "https://bhavyaaenterprises.com",
+              "logo": "https://bhavyaaenterprises.com/favicon-32x32.png",
+              "description": siteConfig.description,
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-9671016735",
+                "contactType": "sales",
+                "areaServed": "IN",
+                "availableLanguage": ["English", "Hindi"]
+              }
+            })
+          }}
+        />
         <Providers>
           {children}
         </Providers>
